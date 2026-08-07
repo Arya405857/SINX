@@ -1,0 +1,56 @@
+import { forwardRef, useState } from "react";
+import Input from "../ui/Input";
+
+function EyeIcon() {
+  return (
+    <svg viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5" aria-hidden="true">
+      <path d="M10 3.5c-4.14 0-7.7 2.54-9.2 6.16a1.02 1.02 0 0 0 0 .68C2.3 13.96 5.86 16.5 10 16.5s7.7-2.54 9.2-6.16a1.02 1.02 0 0 0 0-.68C17.7 6.04 14.14 3.5 10 3.5Zm0 10.83a4.33 4.33 0 1 1 0-8.66 4.33 4.33 0 0 1 0 8.66Z" />
+      <path d="M10 7.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z" />
+    </svg>
+  );
+}
+
+function EyeOffIcon() {
+  return (
+    <svg viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5" aria-hidden="true">
+      <path d="M3.28 2.22a.75.75 0 0 0-1.06 1.06l14.5 14.5a.75.75 0 1 0 1.06-1.06l-1.973-1.972c1.85-1.14 3.31-2.82 4.19-4.83a1.02 1.02 0 0 0 0-.68C18.4 5.62 14.5 3.5 10 3.5c-1.6 0-3.09.32-4.4.9L3.28 2.22Zm5.24 5.24 1.472 1.473a2.5 2.5 0 0 1 3.075 3.075l1.473 1.472A4.32 4.32 0 0 0 8.52 7.46Z" />
+      <path d="M10 16.5c1.19 0 2.32-.22 3.36-.62l-1.6-1.6a4.33 4.33 0 0 1-5.02-5.02L4.8 7.32C3.4 8.32 2.3 9.68 1.6 11.34a1.02 1.02 0 0 0 0 .68C2.3 13.96 5.86 16.5 10 16.5Z" />
+    </svg>
+  );
+}
+
+/**
+ * Password input with a visibility toggle. Wraps <Input /> so it inherits
+ * label / error / hint / ARIA wiring automatically.
+ */
+const PasswordField = forwardRef(function PasswordField(
+  { label = "Password", id = "password", className = "", ...props },
+  ref
+) {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <Input
+      ref={ref}
+      id={id}
+      label={label}
+      type={visible ? "text" : "password"}
+      autoComplete={props.autoComplete || "current-password"}
+      className={className}
+      rightSlot={
+        <button
+          type="button"
+          onClick={() => setVisible((v) => !v)}
+          aria-label={visible ? "Hide password" : "Show password"}
+          aria-pressed={visible}
+          className="flex h-8 w-8 items-center justify-center rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 transition-colors duration-200"
+        >
+          {visible ? <EyeOffIcon /> : <EyeIcon />}
+        </button>
+      }
+      {...props}
+    />
+  );
+});
+
+export default PasswordField;

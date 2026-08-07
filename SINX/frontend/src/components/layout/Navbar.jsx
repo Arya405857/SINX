@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Hand, Menu, X } from "lucide-react"
-import { cn } from "../../utils/cn"
-import Button from "../ui/Button"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Hand, Menu, X } from "lucide-react";
+import { cn } from "../../utils/cn";
+import Button from "../ui/Button";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -11,35 +12,44 @@ const navLinks = [
   { label: "Technology", href: "#technology" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
-]
+];
 
 function Logo() {
   return (
-    <a href="#home" className="flex items-center gap-2" aria-label="Signix home">
+    <a
+      href="#home"
+      className="flex items-center gap-2"
+      aria-label="Signix home"
+    >
       <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
         <Hand size={20} aria-hidden="true" />
       </span>
-      <span className="text-xl font-bold tracking-tight text-foreground">Signix</span>
+      <span className="text-xl font-bold tracking-tight text-foreground">
+        Signix
+      </span>
     </a>
-  )
+  );
 }
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
-    onScroll()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [])
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
-        scrolled ? "border-b border-border bg-surface/90 backdrop-blur" : "bg-transparent",
+        scrolled
+          ? "border-b border-border bg-surface/90 backdrop-blur"
+          : "bg-transparent",
       )}
     >
       <nav
@@ -62,10 +72,14 @@ export default function Navbar() {
         </ul>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <Button variant="ghost" size="md" href="#login">
+          <Button variant="ghost" size="md" onClick={() => navigate("/login")}>
             Login
           </Button>
-          <Button variant="primary" size="md" href="#get-started">
+          <Button
+            variant="primary"
+            size="md"
+            onClick={() => navigate("/register")}
+          >
             Get Started
           </Button>
         </div>
@@ -105,10 +119,24 @@ export default function Navbar() {
                 </li>
               ))}
               <li className="mt-2 flex flex-col gap-2">
-                <Button variant="outline" size="md" href="#login" onClick={() => setOpen(false)}>
+                <Button
+                  variant="outline"
+                  size="md"
+                  onClick={() => {
+                    setOpen(false);
+                    navigate("/login");
+                  }}
+                >
                   Login
                 </Button>
-                <Button variant="primary" size="md" href="#get-started" onClick={() => setOpen(false)}>
+                <Button
+                  variant="primary"
+                  size="md"
+                  onClick={() => {
+                    setOpen(false);
+                    navigate("/register");
+                  }}
+                >
                   Get Started
                 </Button>
               </li>
@@ -117,5 +145,5 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </header>
-  )
+  );
 }
