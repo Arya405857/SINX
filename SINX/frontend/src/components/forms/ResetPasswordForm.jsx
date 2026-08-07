@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
 import ErrorState from "../ui/ErrorState";
 import SuccessState from "../ui/SuccessState";
@@ -37,6 +38,7 @@ export default function ResetPasswordForm({
   const [values, setValues] = useState({ password: "", confirmPassword: "" });
   const [touched, setTouched] = useState({});
   const [localErrors, setLocalErrors] = useState({});
+  const navigate = useNavigate();
 
   const fieldError = (field) => localErrors[field] || errors[field];
 
@@ -56,7 +58,11 @@ export default function ResetPasswordForm({
     setTouched({ password: true, confirmPassword: true });
 
     if (Object.keys(validationErrors).length === 0) {
-      onSubmit?.({ password: values.password });
+      if (onSubmit) {
+        onSubmit({ password: values.password });
+      } else {
+        navigate("/login");
+      }
     }
   };
 
@@ -104,7 +110,9 @@ export default function ResetPasswordForm({
         value={values.confirmPassword}
         onChange={handleChange("confirmPassword")}
         onBlur={handleBlur("confirmPassword")}
-        error={touched.confirmPassword ? fieldError("confirmPassword") : undefined}
+        error={
+          touched.confirmPassword ? fieldError("confirmPassword") : undefined
+        }
       />
 
       <Button type="submit" fullWidth loading={loading} disabled={loading}>

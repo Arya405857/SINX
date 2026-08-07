@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
 import ErrorState from "../ui/ErrorState";
 import SuccessState from "../ui/SuccessState";
@@ -29,6 +30,7 @@ export default function OTPVerificationForm({
   const [code, setCode] = useState("");
   const [cooldown, setCooldown] = useState(RESEND_COOLDOWN_SECONDS);
   const timerRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (cooldown <= 0) return undefined;
@@ -39,7 +41,11 @@ export default function OTPVerificationForm({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (code.length === length) {
-      onSubmit?.(code);
+     if(onSubmit) {
+      onSubmit(code);
+     } else {
+      navigate("/reset-password");
+     }
     }
   };
 
@@ -48,6 +54,7 @@ export default function OTPVerificationForm({
     onResend?.();
     setCooldown(RESEND_COOLDOWN_SECONDS);
   };
+
 
   if (success) {
     return (
@@ -74,7 +81,13 @@ export default function OTPVerificationForm({
         length={length}
         value={code}
         onChange={setCode}
-        onComplete={(finalCode) => onSubmit?.(finalCode)}
+        onComplete={(finalCode) => {
+          if (onSubmit) {
+            onSubmit(finalCode);
+          } else {
+            navigate("/reset-password");
+          }
+        }}
         error={errors.otp}
         disabled={loading}
       />
@@ -85,7 +98,7 @@ export default function OTPVerificationForm({
         loading={loading}
         disabled={loading || code.length !== length}
       >
-        Verify code
+        Verify
       </Button>
 
       <div className="text-center text-sm text-slate-500">

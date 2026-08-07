@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 import ErrorState from "../ui/ErrorState";
@@ -9,7 +10,8 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 function validate({ email }) {
   const errors = {};
   if (!email) errors.email = "Email is required.";
-  else if (!EMAIL_PATTERN.test(email)) errors.email = "Enter a valid email address.";
+  else if (!EMAIL_PATTERN.test(email))
+    errors.email = "Enter a valid email address.";
   return errors;
 }
 
@@ -31,17 +33,23 @@ export default function ForgotPasswordForm({
   const [email, setEmail] = useState("");
   const [touched, setTouched] = useState(false);
   const [localError, setLocalError] = useState(null);
+  const navigate = useNavigate();
 
   const fieldError = localError || errors.email;
 
   const handleSubmit = (e) => {
+    console.log("ForgotPasswordForm submitted");
     e.preventDefault();
     const validationErrors = validate({ email });
     setLocalError(validationErrors.email || null);
     setTouched(true);
 
     if (!validationErrors.email) {
-      onSubmit?.({ email });
+      if (onSubmit) {
+        onSubmit({ email });
+      } else {
+        navigate("/verify-otp");
+      }
     }
   };
 
@@ -53,7 +61,7 @@ export default function ForgotPasswordForm({
         action={
           <button
             type="button"
-            onClick={onBackToLoginClick}
+            onClick={() => navigate("/login")}
             className="text-sm font-medium text-green-700 underline underline-offset-2 hover:text-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400 rounded"
           >
             Back to sign in
@@ -88,7 +96,7 @@ export default function ForgotPasswordForm({
 
       <button
         type="button"
-        onClick={onBackToLoginClick}
+        onClick={() => navigate("/login")}
         className="text-center text-sm font-medium text-slate-500 hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded"
       >
         ← Back to sign in

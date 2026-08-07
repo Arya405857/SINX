@@ -1,5 +1,5 @@
-import { motion } from "framer-motion"
-import { cn } from "../../utils/cn"
+import { motion } from "framer-motion";
+import { cn } from "../../utils/cn";
 
 const variants = {
   primary:
@@ -9,22 +9,24 @@ const variants = {
   outline:
     "bg-surface text-foreground border border-border shadow-sm hover:bg-background",
   ghost: "bg-transparent text-foreground hover:bg-background",
-}
+};
 
 const sizes = {
   md: "h-11 px-5 text-sm",
   lg: "h-12 px-7 text-base",
-}
+};
 
 export default function Button({
-  as = "a",
+  as = "button",
   variant = "primary",
   size = "md",
   className,
   children,
+  fullWidth = false,
+  loading = false,
   ...props
 }) {
-  const Component = motion[as] || motion.button
+  const Component = motion[as] || motion.button;
 
   return (
     <Component
@@ -35,11 +37,12 @@ export default function Button({
         "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-60",
         variants[variant],
         sizes[size],
+        fullWidth && "w-full",
         className,
       )}
       {...props}
     >
-      {children}
+      {loading ? "Loading..." : children}
     </Component>
-  )
+  );
 }
