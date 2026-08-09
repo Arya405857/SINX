@@ -6,6 +6,7 @@ import RegisterPage from "./pages/Auth/RegisterPage";
 import ForgotPasswordPage from "./pages/Auth/ForgotPasswordPage";
 import OTPVerificationPage from "./pages/Auth/OTPVerificationPage";
 import ResetPasswordPage from "./pages/Auth/ResetPasswordPage";
+import Translator from "./pages/translator/Translator";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/verify-otp" element={<OTPVerificationPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/translator" element={<Translator />} />
       </Routes>
     </BrowserRouter>
   );
