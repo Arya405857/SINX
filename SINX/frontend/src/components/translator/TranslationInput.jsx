@@ -36,6 +36,9 @@ export default function TranslationInput({
   onChange,
   onClear,
   onTranslate,
+  onSpeechStart,
+  onCameraStart,
+  onUpload,
 }) {
   const textareaRef = useRef(null);
 
@@ -84,6 +87,7 @@ export default function TranslationInput({
     <div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed border-slate-200 bg-slate-50 px-6 py-12 text-center">
       <motion.button
         type="button"
+        onClick={onSpeechStart}
         disabled={disabled}
         whileHover={disabled ? undefined : { scale: 1.05 }}
         whileTap={disabled ? undefined : { scale: 0.95 }}
@@ -110,6 +114,7 @@ export default function TranslationInput({
       </p>
       <motion.button
         type="button"
+        onClick={onCameraStart}
         disabled={disabled}
         whileHover={disabled ? undefined : { scale: 1.03 }}
         whileTap={disabled ? undefined : { scale: 0.97 }}
@@ -136,6 +141,7 @@ export default function TranslationInput({
       </div>
       <motion.button
         type="button"
+        onClick={onUpload}
         disabled={disabled}
         whileHover={disabled ? undefined : { scale: 1.03 }}
         whileTap={disabled ? undefined : { scale: 0.97 }}

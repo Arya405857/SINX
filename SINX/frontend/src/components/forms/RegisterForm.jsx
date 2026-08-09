@@ -8,6 +8,7 @@ import PasswordStrengthMeter from "./PasswordStrengthMeter";
 import SocialLogin from "./SocialLogin";
 import ErrorState from "../ui/ErrorState";
 import SuccessState from "../ui/SuccessState";
+import { Link } from "react-router-dom";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -179,13 +180,9 @@ export default function RegisterForm({
           />
           <span>
             I agree to the{" "}
-            <a href="#" className="font-medium text-blue-600 hover:text-blue-700">
-              Terms of Service
-            </a>{" "}
+            <Link to="/terms" className="font-medium text-blue-600 hover:text-blue-700">Terms of Service</Link>{" "}
             and{" "}
-            <a href="#" className="font-medium text-blue-600 hover:text-blue-700">
-              Privacy Policy
-            </a>
+            <Link to="/privacy" className="font-medium text-blue-600 hover:text-blue-700">Privacy Policy</Link>
             .
           </span>
         </label>

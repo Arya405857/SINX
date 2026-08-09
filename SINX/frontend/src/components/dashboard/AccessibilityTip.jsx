@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Lightbulb } from "lucide-react";
 
 /**
@@ -16,10 +16,7 @@ const DEFAULT_TIPS = [
 ];
 
 export default function AccessibilityTip({ tips = DEFAULT_TIPS }) {
-  const tip = useMemo(
-    () => tips[Math.floor(Math.random() * tips.length)],
-    [tips]
-  );
+  const tip = tips[0] || "Accessibility settings are ready when you are.";
 
   return (
     <section

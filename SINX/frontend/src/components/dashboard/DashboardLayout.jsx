@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Sidebar from "../sidebar/Sidebar";
 import Topbar from "../topbar/Topbar";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 /**
  * DashboardLayout
@@ -25,15 +27,30 @@ export default function DashboardLayout({
 }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const navigate = useNavigate();
+  const { signOut } = useAuth();
+  const routes = { dashboard: "/dashboard", translator: "/translator", learning: "/learning", history: "/history", profile: "/profile", settings: "/settings" };
+
+  const handleNavigate = (item) => {
+    setIsDrawerOpen(false);
+    if (routes[item]) navigate(routes[item]);
+    onNavigate?.(item);
+  };
+  const handleLogout = () => {
+    setIsDrawerOpen(false);
+    signOut();
+    if (onLogout) onLogout();
+    else navigate("/login");
+  };
 
   return (
     <div className="flex min-h-screen bg-slate-50">
       <Sidebar
         activeItem={activeItem}
-        onNavigate={onNavigate}
+        onNavigate={handleNavigate}
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        onLogout={onLogout}
+        onLogout={handleLogout}
       />
 
       <div className="flex min-h-screen flex-1 flex-col overflow-x-hidden">
@@ -43,6 +60,11 @@ export default function DashboardLayout({
           onMenuClick={() => setIsDrawerOpen(true)}
           onToggleTheme={() => setIsDarkMode((v) => !v)}
           isDarkMode={isDarkMode}
+          onProfileAction={(action) => {
+            if (action === "profile") navigate("/profile");
+            if (action === "settings") navigate("/settings");
+            if (action === "logout") handleLogout();
+          }}
         />
 
         <main

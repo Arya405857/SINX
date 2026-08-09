@@ -2,6 +2,7 @@ import { motion } from "framer-motion"
 import { Type, Hash, BookOpen, HelpCircle } from "lucide-react"
 import SectionTitle from "../../components/ui/SectionTitle"
 import { fadeUp, stagger, viewportOnce } from "../../utils/motion"
+import { useNavigate } from "react-router-dom"
 
 const modules = [
   { icon: Type, title: "Alphabet", description: "Master all 26 signed letters." },
@@ -11,6 +12,7 @@ const modules = [
 ]
 
 export default function LearningPreview() {
+  const navigate = useNavigate()
   return (
     <section id="learning" className="scroll-mt-16 py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -29,19 +31,21 @@ export default function LearningPreview() {
             className="grid gap-6 sm:grid-cols-2"
           >
             {modules.map((module) => (
-              <motion.article
+              <motion.button
+                type="button"
+                onClick={() => navigate("/learning")}
                 key={module.title}
                 variants={fadeUp}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.2, ease: "easeOut" }}
-                className="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-6 shadow-sm"
+                className="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-6 text-left shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
               >
                 <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-accent">
                   <module.icon size={22} aria-hidden="true" />
                 </span>
                 <h3 className="text-lg font-semibold text-foreground">{module.title}</h3>
                 <p className="text-base leading-relaxed text-muted">{module.description}</p>
-              </motion.article>
+              </motion.button>
             ))}
           </motion.div>
 

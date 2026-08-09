@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/dashboard/DashboardLayout";
 import WelcomeCard from "../../components/dashboard/WelcomeCard";
 import QuickActions from "../../components/dashboard/QuickActionCard";
@@ -19,50 +20,51 @@ import SignaCard from "../../components/cards/SignaCard";
  * sidebar, or topbar components.
  */
 export default function Dashboard() {
+  const navigate = useNavigate();
   // ---- Backend-ready placeholders -----------------------------------
   const onNavigate = (id) => {
     // TODO: integrate with existing routing (react-router, etc.)
-    console.log("navigate:", id);
+    const routes = { translator: "/translator", learning: "/learning", history: "/history" };
+    if (routes[id]) navigate(routes[id]);
   };
 
   const onLogout = () => {
-    // TODO: integrate with existing auth/context
-    console.log("logout");
+    navigate("/login");
   };
 
   const onContinueLearning = () => {
     // TODO: route to /learning
-    console.log("continueLearning");
+    navigate("/learning");
   };
 
   const onQuickTranslate = () => {
     // TODO: open quick translate modal or route to /translator
-    console.log("quickTranslate");
+    navigate("/translator");
   };
 
   const onCameraTranslate = () => {
     // TODO: route to /translator?mode=camera
-    console.log("cameraTranslate");
+    navigate("/translator?mode=camera");
   };
 
   const onSpeechTranslate = () => {
     // TODO: route to /translator?mode=speech
-    console.log("speechTranslate");
+    navigate("/translator?mode=speech");
   };
 
   const onTextTranslate = () => {
     // TODO: route to /translator?mode=text
-    console.log("textTranslate");
+    navigate("/translator?mode=text");
   };
 
   const onOpenLearning = () => {
     // TODO: route to /learning
-    console.log("openLearning");
+    navigate("/learning");
   };
 
   const onOpenHistory = () => {
     // TODO: route to /history
-    console.log("openHistory");
+    navigate("/history");
   };
 
   const onStartConversation = () => {
@@ -72,7 +74,7 @@ export default function Dashboard() {
 
   const onStartLesson = () => {
     // TODO: route to recommended lesson in /learning
-    console.log("startLesson");
+    navigate("/learning");
   };
   // ---------------------------------------------------------------------
 

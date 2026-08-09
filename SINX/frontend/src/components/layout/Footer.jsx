@@ -1,21 +1,22 @@
 import { Hand } from "lucide-react";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+import { Link } from "react-router-dom";
 const linkGroups = [
   {
     title: "Product",
     links: [
-      { label: "About", href: "#about" },
-      { label: "Privacy", href: "#privacy" },
-      { label: "Terms", href: "#terms" },
+      { label: "About", href: "#why" },
+      { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" },
       { label: "Contact", href: "#contact" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { label: "GitHub", href: "#github" },
-      { label: "University", href: "#university" },
+      { label: "GitHub", href: "https://github.com" },
+      { label: "University", href: "#contact" },
       { label: "Learning Hub", href: "#learning" },
       { label: "Technology", href: "#technology" },
     ],
@@ -23,9 +24,9 @@ const linkGroups = [
 ]
 
 const socials = [
-  { label: "LinkedIn", href: "#linkedin", icon: FaLinkedin },
-  { label: "GitHub", href: "#github", icon: FaGithub },
-  { label: "Email", href: "#email", icon: MdEmail },
+  { label: "LinkedIn", href: "https://www.linkedin.com", icon: FaLinkedin },
+  { label: "GitHub", href: "https://github.com", icon: FaGithub },
+  { label: "Email", href: "mailto:hello@signix.ai", icon: MdEmail },
 ];
 
 export default function Footer() {
@@ -65,12 +66,9 @@ export default function Footer() {
               <ul className="flex flex-col gap-3">
                 {group.links.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
+                    {link.href.startsWith("/") ? <Link to={link.href}
                       className="text-base text-muted transition-colors duration-200 hover:text-foreground"
-                    >
-                      {link.label}
-                    </a>
+                    >{link.label}</Link> : <a href={link.href} className="text-base text-muted transition-colors duration-200 hover:text-foreground" target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noreferrer" : undefined}>{link.label}</a>}
                   </li>
                 ))}
               </ul>

@@ -1,9 +1,11 @@
 import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import Button from "../../components/ui/Button"
+import { useNavigate } from "react-router-dom"
 import { fadeUp, viewportOnce } from "../../utils/motion"
 
 export default function CTA() {
+  const navigate = useNavigate()
   return (
     <section className="px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
       <motion.div
@@ -23,7 +25,7 @@ export default function CTA() {
           <Button
             variant="secondary"
             size="lg"
-            href="#learning"
+            onClick={() => navigate("/learning")}
             className="focus-visible:outline-white"
           >
             Start Learning
@@ -32,7 +34,7 @@ export default function CTA() {
           <Button
             variant="outline"
             size="lg"
-            href="#get-started"
+            onClick={() => navigate("/register")}
             className="border-transparent bg-surface text-primary hover:bg-blue-50"
           >
             Create Account

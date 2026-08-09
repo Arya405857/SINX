@@ -6,18 +6,7 @@ const MODES = [
   {
     id: "text",
     label: "Text",
-    description: `
-Text
-Translate typed conversations instantly.
-
-Speech
-Convert spoken language into sign language.
-
-Camera
-Translate live hand signs using AI vision.
-
-Image
-Translate signs from uploaded images.`,
+    description: "Translate typed conversations with an AI-ready workflow.",
     icon: Type,
   },
   {

@@ -1,4 +1,5 @@
 import React from "react";
+import DashboardLayout from "../dashboard/DashboardLayout";
 
 /**
  * TranslatorLayout
@@ -22,16 +23,13 @@ import React from "react";
  */
 export default function TranslatorLayout({ children, actions }) {
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+    <DashboardLayout title="AI Translator" activeItem="translator">
+      <div>
         {/* Page header */}
         <header className="mb-6 sm:mb-8 lg:mb-10">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h1 className="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
-                AI Translator
-                Translate speech, text, images and sign language using AI.
-              </h1>
+              <h2 className="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">AI Translator</h2>
               <p className="mt-1.5 max-w-2xl text-sm text-slate-600 sm:text-base">
                 Translate speech, text, images, and sign language using AI.
               </p>
@@ -44,13 +42,13 @@ export default function TranslatorLayout({ children, actions }) {
         </header>
 
         {/* Main content area */}
-        <main
+        <div
           aria-label="AI Translator content"
           className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm shadow-slate-200/60 sm:p-6 lg:p-8"
         >
           {children}
-        </main>
+        </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }

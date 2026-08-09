@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 function SignixMark({ className = "" }) {
   return (
@@ -31,7 +32,7 @@ export default function AuthLayout({
       {/* Form column */}
       <div className="flex w-full flex-col justify-center px-6 py-10 sm:px-10 lg:w-1/2 lg:px-16 xl:px-24">
         <div className="mx-auto w-full max-w-sm">
-          <SignixMark className="mb-10" />
+          <Link to="/" aria-label="Return to Signix home"><SignixMark className="mb-10" /></Link>
 
           <motion.div
             initial={{ opacity: 0, y: 12 }}

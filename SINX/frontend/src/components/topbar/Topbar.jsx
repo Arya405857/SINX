@@ -30,6 +30,7 @@ export default function Topbar({
   onMenuClick,
   onSearch,
   onToggleTheme,
+  onProfileAction,
   isDarkMode = false,
 }) {
   const [profileOpen, setProfileOpen] = useState(false);
@@ -99,6 +100,7 @@ export default function Topbar({
         {/* Notifications */}
         <button
           type="button"
+          onClick={() => window.alert("Notifications are ready for backend integration.")}
           className="relative rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           aria-label={`Notifications${notificationCount ? `, ${notificationCount} unread` : ""}`}
         >
@@ -145,14 +147,15 @@ export default function Topbar({
                 role="menu"
                 className="absolute right-0 mt-2 w-44 overflow-hidden rounded-xl border border-slate-100 bg-white py-1.5 shadow-lg shadow-slate-200/60"
               >
-                {["View profile", "Account settings", "Sign out"].map((option) => (
+                {[{ label: "View profile", action: "profile" }, { label: "Account settings", action: "settings" }, { label: "Sign out", action: "logout" }].map((option) => (
                   <button
-                    key={option}
+                    key={option.action}
                     type="button"
                     role="menuitem"
+                    onClick={() => { setProfileOpen(false); onProfileAction?.(option.action); }}
                     className="block w-full px-3.5 py-2 text-left text-[13px] text-slate-600 hover:bg-slate-50"
                   >
-                    {option}
+                    {option.label}
                   </button>
                 ))}
               </motion.div>
