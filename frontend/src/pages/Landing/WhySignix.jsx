@@ -1,13 +1,13 @@
-import { motion } from "framer-motion"
-import { Check } from "lucide-react"
-import SectionTitle from "../../components/ui/SectionTitle"
-import { fadeUp, stagger, viewportOnce } from "../../utils/motion"
+import { motion } from "framer-motion";
+import { Check } from "lucide-react";
+import SectionTitle from "../../components/ui/SectionTitle";
+import { fadeUp, stagger, viewportOnce } from "../../utils/motion";
 
 const points = [
   "Millions of people face daily barriers because sign, speech and text rarely connect.",
   "Signix uses AI to translate across sign language, speech and text in real time.",
   "One accessible platform for hearing-impaired, speech-impaired and hearing users alike.",
-]
+];
 
 export default function WhySignix() {
   return (
@@ -21,7 +21,8 @@ export default function WhySignix() {
           className="order-2 rounded-3xl border border-border bg-surface p-4 shadow-sm lg:order-1"
         >
           <img
-            src="/why-illustration.png"
+            src={`${import.meta.env.BASE_URL}why-illustration.png`}
+            alt="Why"
             alt="An AI system bridging sign language, speech and text communication"
             className="h-auto w-full rounded-2xl"
             width={800}
@@ -45,16 +46,22 @@ export default function WhySignix() {
             className="flex flex-col gap-4"
           >
             {points.map((point) => (
-              <motion.li key={point} variants={fadeUp} className="flex items-start gap-3">
+              <motion.li
+                key={point}
+                variants={fadeUp}
+                className="flex items-start gap-3"
+              >
                 <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary/10 text-secondary">
                   <Check size={16} aria-hidden="true" />
                 </span>
-                <span className="text-base leading-relaxed text-muted">{point}</span>
+                <span className="text-base leading-relaxed text-muted">
+                  {point}
+                </span>
               </motion.li>
             ))}
           </motion.ul>
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -75,7 +75,8 @@ export default function Hero() {
         >
           <div className="rounded-3xl border border-border bg-surface p-4 shadow-sm">
             <img
-              src="/hero-illustration.png"
+              src={`${import.meta.env.BASE_URL}hero-illustration.png`}
+              alt="Hero"
               alt="Two people communicating through sign language, speech and text translated by AI"
               className="h-auto w-full rounded-2xl"
               width={800}
