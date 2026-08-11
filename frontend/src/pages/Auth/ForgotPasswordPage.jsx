@@ -19,7 +19,7 @@ export default function ForgotPasswordPage({
   onBackToLoginClick,
 }) {
   const navigate = useNavigate(); const [busy, setBusy] = useState(false); const [done, setDone] = useState(false); const [formError, setFormError] = useState('');
-  const submit = async ({ email }) => { setBusy(true); setFormError(''); try { await authService.forgotPassword(email); setDone(true); window.setTimeout(() => navigate('/verify-otp?purpose=reset-password'), 700); } catch (error) { setFormError(error.message); } finally { setBusy(false); } };
+  const submit = async ({ email }) => { setBusy(true); setFormError(''); try { await authService.forgotPassword(email); setDone(true); window.setTimeout(() => navigate('/verify-otp?purpose=reset-password'), 700); } catch (error) { if (error.code === 'EMAIL_VERIFICATION_REQUIRED') { authService.setPendingEmail(email); navigate('/verify-otp', { replace: true }); return; } setFormError(error.message); } finally { setBusy(false); } };
   return (
     <AuthLayout
       title="Forgot your password?"
@@ -29,7 +29,7 @@ export default function ForgotPasswordPage({
       <ForgotPasswordForm
         onSubmit={onSubmit || submit}
         loading={loading ?? busy}
-        errors={errors || { form: formError }}
+        errors={{ ...errors, form: formError || errors?.form }}
         success={success ?? done}
         onBackToLoginClick={onBackToLoginClick}
       />

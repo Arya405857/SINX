@@ -40,7 +40,7 @@ export default function OTPVerificationPage({
         onResend={onResend || resend}
         loading={loading ?? busy}
         resending={resending ?? busy}
-        errors={errors || { form: formError }}
+        errors={{ ...errors, form: formError || errors?.form }}
         success={success}
       />
     </AuthLayout>
