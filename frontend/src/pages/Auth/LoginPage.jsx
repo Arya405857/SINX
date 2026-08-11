@@ -1,7 +1,7 @@
 import AuthLayout from "../../components/layout/AuthLayout";
 import LoginForm from "../../components/forms/LoginForm";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 /**
@@ -26,13 +26,25 @@ export default function LoginPage({
   socialLoadingProvider,
 }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [complete, setComplete] = useState(false);
+  const [formError, setFormError] = useState("");
   const { signIn } = useAuth();
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     if (onSubmit) return onSubmit(values);
     setIsSubmitting(true);
-    signIn(values).then(() => { setComplete(true); window.setTimeout(() => navigate("/dashboard"), 700); }).finally(() => setIsSubmitting(false));
+    setFormError("");
+    try {
+      await signIn(values);
+      setComplete(true);
+      const destination = location.state?.from || "/dashboard";
+      window.setTimeout(() => navigate(destination, { replace: true }), 700);
+    } catch (error) {
+      setFormError(error.message || "Unable to sign in. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   const handleSocial = () => alert('Social sign-in is not configured yet. Please use email and password.');
   return (
@@ -43,7 +55,7 @@ export default function LoginPage({
       <LoginForm
         onSubmit={handleSubmit}
         loading={loading ?? isSubmitting}
-        errors={errors}
+        errors={{ ...errors, form: formError || errors?.form }}
         success={success ?? complete}
         onForgotPasswordClick={onForgotPasswordClick}
         onRegisterClick={onRegisterClick}

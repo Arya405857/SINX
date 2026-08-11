@@ -96,7 +96,7 @@ export default function RegisterForm({
     return (
       <SuccessState
         title="Account created"
-        message="Check your inbox to verify your email and get started."
+        message="Redirecting you to your dashboard…"
       />
     );
   }

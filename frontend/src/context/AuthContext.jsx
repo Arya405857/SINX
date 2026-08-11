@@ -10,10 +10,10 @@ export function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const value = useMemo(() => ({
     user: session?.user ?? null,
-    isAuthenticated: Boolean(session),
+    isAuthenticated: Boolean(session?.accessToken),
     isLoading,
     async signIn(credentials) { setIsLoading(true); try { const next = await authService.signIn(credentials); setSession(next); return next; } finally { setIsLoading(false); } },
-    async register(details) { setIsLoading(true); try { return await authService.register(details); } finally { setIsLoading(false); } },
+    async register(details) { setIsLoading(true); try { const next = await authService.register(details); setSession(next); return next; } finally { setIsLoading(false); } },
     async signOut() { authService.signOut(); setSession(null); },
   }), [session, isLoading]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

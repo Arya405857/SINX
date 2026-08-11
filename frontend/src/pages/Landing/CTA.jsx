@@ -2,10 +2,17 @@ import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import Button from "../../components/ui/Button"
 import { useNavigate } from "react-router-dom"
+import useAuth from "../../hooks/useAuth"
 import { fadeUp, viewportOnce } from "../../utils/motion"
 
 export default function CTA() {
   const navigate = useNavigate()
+  const { isAuthenticated } = useAuth()
+  const startLearning = () => {
+    navigate(isAuthenticated ? "/learning" : "/login", {
+      state: isAuthenticated ? undefined : { from: "/learning" },
+    })
+  }
   return (
     <section className="px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
       <motion.div
@@ -25,7 +32,7 @@ export default function CTA() {
           <Button
             variant="secondary"
             size="lg"
-            onClick={() => navigate("/learning")}
+            onClick={startLearning}
             className="focus-visible:outline-white"
           >
             Start Learning

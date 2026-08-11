@@ -25,11 +25,21 @@ export default function RegisterPage({
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [complete, setComplete] = useState(false);
+  const [formError, setFormError] = useState("");
   const { register } = useAuth();
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     if (onSubmit) return onSubmit(values);
     setIsSubmitting(true);
-    register(values).then(() => { setComplete(true); window.setTimeout(() => navigate("/verify-otp"), 700); }).finally(() => setIsSubmitting(false));
+    setFormError("");
+    try {
+      await register(values);
+      setComplete(true);
+      window.setTimeout(() => navigate("/dashboard", { replace: true }), 700);
+    } catch (error) {
+      setFormError(error.message || "Unable to create your account. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   const handleSocial = () => alert('Social sign-up is not configured yet. Please create an account with email.');
   return (
@@ -40,7 +50,7 @@ export default function RegisterPage({
       <RegisterForm
         onSubmit={handleSubmit}
         loading={loading ?? isSubmitting}
-        errors={errors}
+        errors={{ ...errors, form: formError || errors?.form }}
         success={success ?? complete}
         onLoginClick={onLoginClick}
         onGoogleClick={onGoogleClick ?? handleSocial}
