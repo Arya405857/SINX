@@ -1,0 +1,2 @@
+import { validationResult } from 'express-validator'; import { AppError } from '../utils/http.js';
+export function validate(req, _res, next) { const result = validationResult(req); if (!result.isEmpty()) { const error = new AppError('Please correct the highlighted fields.', 422, 'VALIDATION_ERROR'); error.details = result.array().map(({ path, msg }) => ({ field: path, message: msg })); return next(error); } next(); }

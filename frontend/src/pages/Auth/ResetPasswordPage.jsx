@@ -1,5 +1,8 @@
 import AuthLayout from "../../components/layout/AuthLayout";
 import ResetPasswordForm from "../../components/forms/ResetPasswordForm";
+import { useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { authService } from '../../services/authService';
 
 /**
  * ResetPasswordPage — thin composition layer over ResetPasswordForm.
@@ -17,6 +20,8 @@ export default function ResetPasswordPage({
   success,
   onBackToLoginClick,
 }) {
+  const [params] = useSearchParams(); const navigate = useNavigate(); const [busy, setBusy] = useState(false); const [done, setDone] = useState(false); const [formError, setFormError] = useState('');
+  const submit = async ({ password }) => { const resetToken = params.get('token'); if (!resetToken) return setFormError('A password reset token is required. Verify the code from your email first.'); setBusy(true); try { await authService.resetPassword(resetToken, password); setDone(true); } catch (error) { setFormError(error.message); } finally { setBusy(false); } };
   return (
     <AuthLayout
       title="Set a new password"
@@ -24,11 +29,11 @@ export default function ResetPasswordPage({
       showBrandPanel={false}
     >
       <ResetPasswordForm
-        onSubmit={onSubmit}
-        loading={loading}
-        errors={errors}
-        success={success}
-        onBackToLoginClick={onBackToLoginClick}
+        onSubmit={onSubmit || submit}
+        loading={loading ?? busy}
+        errors={errors || { form: formError }}
+        success={success ?? done}
+        onBackToLoginClick={onBackToLoginClick || (() => navigate('/login'))}
       />
     </AuthLayout>
   );

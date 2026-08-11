@@ -7,6 +7,7 @@ import TranslationOutput from "../../components/translator/TranslationOutput";
 import SignaAssistant from "../../components/translator/SignaAssistant";
 import ConversationPanel from "../../components/translator/ConversationPanel";
 import LanguageSelector from "../../components/translator/LanguageSelector";
+import api from '../../services/apiClient';
 
 const validModes = ["text", "speech", "camera", "image"];
 const initialConversations = [
@@ -31,15 +32,10 @@ export default function Translator() {
   }), [conversations, filter, search]);
 
   const handleModeChange = (nextMode) => { setMode(nextMode); setInput(""); setResult(""); };
-  const handleTranslate = () => {
+  const handleTranslate = async () => {
     if (!input.trim()) return;
     setLoading(true);
-    window.setTimeout(() => {
-      const message = "Translation request prepared. Connect the AI translation service to return a signed-language result.";
-      setResult(message);
-      setConversations((items) => [{ id: Date.now().toString(), sender: "user", mode, status: "completed", time: "Just now", preview: input.trim() }, ...items]);
-      setLoading(false);
-    }, 450);
+    try { const item = await api.post('/translator/translate', { input, mode }); setResult(item.output); setConversations((items) => [{ id: item._id, sender: 'user', mode, status: item.status, time: 'Just now', preview: item.input }, ...items]); } catch (error) { setResult(error.message); } finally { setLoading(false); }
   };
   const handleFutureInput = (label) => setResult(`${label} capture is ready for its future AI integration.`);
 

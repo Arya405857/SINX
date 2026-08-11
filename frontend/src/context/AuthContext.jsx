@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
     isLoading,
     async signIn(credentials) { setIsLoading(true); try { const next = await authService.signIn(credentials); setSession(next); return next; } finally { setIsLoading(false); } },
     async register(details) { setIsLoading(true); try { return await authService.register(details); } finally { setIsLoading(false); } },
-    signOut() { authService.signOut(); setSession(null); },
+    async signOut() { authService.signOut(); setSession(null); },
   }), [session, isLoading]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

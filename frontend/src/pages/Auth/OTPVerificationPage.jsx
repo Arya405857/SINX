@@ -1,5 +1,8 @@
 import AuthLayout from "../../components/layout/AuthLayout";
 import OTPVerificationForm from "../../components/forms/OTPVerificationForm";
+import { useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { authService } from '../../services/authService';
 
 /**
  * OTPVerificationPage — thin composition layer over OTPVerificationForm.
@@ -19,6 +22,9 @@ export default function OTPVerificationPage({
   errors,
   success,
 }) {
+  const navigate = useNavigate(); const [params] = useSearchParams(); const purpose = params.get('purpose') === 'reset-password' ? 'reset-password' : 'verify-email'; const [busy, setBusy] = useState(false); const [formError, setFormError] = useState('');
+  const verify = async (code) => { setBusy(true); setFormError(''); try { const result = await authService.verifyOtp(code, purpose); navigate(purpose === 'reset-password' ? `/reset-password?token=${encodeURIComponent(result.resetToken)}` : '/dashboard'); } catch (error) { setFormError(error.message); } finally { setBusy(false); } };
+  const resend = async () => { setBusy(true); try { await authService.resendOtp(purpose); } catch (error) { setFormError(error.message); } finally { setBusy(false); } };
   return (
     <AuthLayout
       title="Verify your identity"
@@ -26,13 +32,13 @@ export default function OTPVerificationPage({
       showBrandPanel={false}
     >
       <OTPVerificationForm
-        destination={destination}
+        destination={destination || sessionStorage.getItem('signix.pendingEmail')}
         length={length}
-        onSubmit={onSubmit}
-        onResend={onResend}
-        loading={loading}
-        resending={resending}
-        errors={errors}
+        onSubmit={onSubmit || verify}
+        onResend={onResend || resend}
+        loading={loading ?? busy}
+        resending={resending ?? busy}
+        errors={errors || { form: formError }}
         success={success}
       />
     </AuthLayout>

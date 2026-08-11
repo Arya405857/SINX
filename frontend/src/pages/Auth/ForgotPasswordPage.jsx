@@ -1,5 +1,8 @@
 import AuthLayout from "../../components/layout/AuthLayout";
 import ForgotPasswordForm from "../../components/forms/ForgotPasswordForm";
+import { useState } from 'react';
+import { authService } from '../../services/authService';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * ForgotPasswordPage — thin composition layer over ForgotPasswordForm.
@@ -15,6 +18,8 @@ export default function ForgotPasswordPage({
   success,
   onBackToLoginClick,
 }) {
+  const navigate = useNavigate(); const [busy, setBusy] = useState(false); const [done, setDone] = useState(false); const [formError, setFormError] = useState('');
+  const submit = async ({ email }) => { setBusy(true); setFormError(''); try { await authService.forgotPassword(email); setDone(true); window.setTimeout(() => navigate('/verify-otp?purpose=reset-password'), 700); } catch (error) { setFormError(error.message); } finally { setBusy(false); } };
   return (
     <AuthLayout
       title="Forgot your password?"
@@ -22,10 +27,10 @@ export default function ForgotPasswordPage({
       showBrandPanel={false}
     >
       <ForgotPasswordForm
-        onSubmit={onSubmit}
-        loading={loading}
-        errors={errors}
-        success={success}
+        onSubmit={onSubmit || submit}
+        loading={loading ?? busy}
+        errors={errors || { form: formError }}
+        success={success ?? done}
         onBackToLoginClick={onBackToLoginClick}
       />
     </AuthLayout>

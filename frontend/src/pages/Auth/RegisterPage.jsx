@@ -31,7 +31,7 @@ export default function RegisterPage({
     setIsSubmitting(true);
     register(values).then(() => { setComplete(true); window.setTimeout(() => navigate("/verify-otp"), 700); }).finally(() => setIsSubmitting(false));
   };
-  const handleSocial = () => { setIsSubmitting(true); window.setTimeout(() => { setComplete(true); setIsSubmitting(false); window.setTimeout(() => navigate("/dashboard"), 700); }, 550); };
+  const handleSocial = () => alert('Social sign-up is not configured yet. Please create an account with email.');
   return (
     <AuthLayout
       title="Create your account"

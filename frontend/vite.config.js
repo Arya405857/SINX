@@ -5,4 +5,5 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   base: "/SINX/",
   plugins: [react(), tailwindcss()],
+  server: { proxy: { '/api': 'http://localhost:5000', '/uploads': 'http://localhost:5000' } },
 });

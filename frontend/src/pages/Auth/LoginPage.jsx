@@ -34,7 +34,7 @@ export default function LoginPage({
     setIsSubmitting(true);
     signIn(values).then(() => { setComplete(true); window.setTimeout(() => navigate("/dashboard"), 700); }).finally(() => setIsSubmitting(false));
   };
-  const handleSocial = () => handleSubmit({ email: "social@signix.ai" });
+  const handleSocial = () => alert('Social sign-in is not configured yet. Please use email and password.');
   return (
     <AuthLayout
       title="Welcome back"

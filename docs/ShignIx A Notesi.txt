@@ -53,3 +53,150 @@ src/
 └── App.jsx
 
 create a Product Requirements Document (PRD) for the landing page
+
+
+Frontend
+│
+├── Landing
+├── Auth
+├── Dashboard
+├── Translator
+├── Learning
+├── History
+├── Profile
+├── Settings
+└── Legal
+
+↓
+
+Backend
+
+├── Auth Module
+├── Dashboard Module
+├── Translator Module
+├── Learning Module
+├── History Module
+├── Profile Module
+├── Settings Module
+├── Notification Module
+├── Upload Module
+├── AI Gateway
+└── Admin Module
+
+
+backend/
+│
+├── src/
+│   ├── config/
+│   │   ├── database.js
+│   │   ├── env.js
+│   │   └── logger.js
+│   │
+│   ├── controllers/
+│   │   ├── auth/
+│   │   ├── user/
+│   │   ├── translator/
+│   │   ├── learning/
+│   │   ├── history/
+│   │   └── settings/
+│   │
+│   ├── services/
+│   │   ├── auth/
+│   │   ├── translator/
+│   │   ├── learning/
+│   │   ├── history/
+│   │   └── ai/
+│   │
+│   ├── models/
+│   │   ├── User.js
+│   │   ├── Translation.js
+│   │   ├── Lesson.js
+│   │   ├── History.js
+│   │   └── Notification.js
+│   │
+│   ├── routes/
+│   │   ├── auth.routes.js
+│   │   ├── user.routes.js
+│   │   ├── translator.routes.js
+│   │   ├── learning.routes.js
+│   │   ├── history.routes.js
+│   │   └── settings.routes.js
+│   │
+│   ├── middleware/
+│   │   ├── auth.js
+│   │   ├── errorHandler.js
+│   │   ├── upload.js
+│   │   └── validation.js
+│   │
+│   ├── utils/
+│   ├── validators/
+│   ├── constants/
+│   ├── app.js
+│   └── server.js
+│
+├── uploads/
+├── tests/
+├── .env.example
+├── package.json
+└── README.md
+
+POST   /api/auth/register
+POST   /api/auth/verify-otp
+POST   /api/auth/login
+POST   /api/auth/forgot-password
+POST   /api/auth/reset-password
+
+GET    /api/profile
+PUT    /api/profile
+
+POST   /api/translator/text
+POST   /api/translator/image
+POST   /api/translator/audio
+
+GET    /api/history
+DELETE /api/history/:id
+
+GET    /api/learning/courses
+POST   /api/learning/progress
+
+GET    /api/settings
+PUT    /api/settings
+
+Later, I recommended Express + FastAPI
+
+That's because I was optimizing for your current project state.
+
+React Frontend
+        │
+        ▼
+Node.js + Express API
+        │
+        ├── MongoDB
+        │
+        └── Python FastAPI AI Service
+                │
+                ▼
+        MediaPipe + AI Models
+
+Advantages
+
+Matches your existing JavaScript experience.
+Easier integration with your current React frontend.
+Python is still used where it matters most (AI).
+Clear separation between application logic and AI
+
+services/
+
+auth.service.js
+
+translator.service.js
+
+learning.service.js
+
+history.service.js
+
+profile.service.js
+
+settings.service.js
+
+signa.service.js
