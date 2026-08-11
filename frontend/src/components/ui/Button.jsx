@@ -24,6 +24,7 @@ export default function Button({
   children,
   fullWidth = false,
   loading = false,
+  leftIcon = null,
   ...props
 }) {
   const Component = motion[as] || motion.button;
@@ -42,7 +43,7 @@ export default function Button({
       )}
       {...props}
     >
-      {loading ? "Loading..." : children}
+      {loading ? "Loading..." : <>{leftIcon}{children}</>}
     </Component>
   );
 }
