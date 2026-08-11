@@ -13,7 +13,8 @@ export function AuthProvider({ children }) {
     isAuthenticated: Boolean(session?.accessToken),
     isLoading,
     async signIn(credentials) { setIsLoading(true); try { const next = await authService.signIn(credentials); setSession(next); return next; } finally { setIsLoading(false); } },
-    async register(details) { setIsLoading(true); try { const next = await authService.register(details); setSession(next); return next; } finally { setIsLoading(false); } },
+    async register(details) { setIsLoading(true); try { return await authService.register(details); } finally { setIsLoading(false); } },
+    async verifyOtp(code, purpose) { setIsLoading(true); try { const next = await authService.verifyOtp(code, purpose); if (next.accessToken) setSession(next); return next; } finally { setIsLoading(false); } },
     async signOut() { authService.signOut(); setSession(null); },
   }), [session, isLoading]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

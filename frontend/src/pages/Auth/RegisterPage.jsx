@@ -34,7 +34,7 @@ export default function RegisterPage({
     try {
       await register(values);
       setComplete(true);
-      window.setTimeout(() => navigate("/dashboard", { replace: true }), 700);
+      window.setTimeout(() => navigate("/verify-otp", { replace: true }), 700);
     } catch (error) {
       setFormError(error.message || "Unable to create your account. Please try again.");
     } finally {

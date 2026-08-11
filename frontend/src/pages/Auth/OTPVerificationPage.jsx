@@ -3,6 +3,7 @@ import OTPVerificationForm from "../../components/forms/OTPVerificationForm";
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { authService } from '../../services/authService';
+import useAuth from '../../hooks/useAuth';
 
 /**
  * OTPVerificationPage — thin composition layer over OTPVerificationForm.
@@ -23,7 +24,8 @@ export default function OTPVerificationPage({
   success,
 }) {
   const navigate = useNavigate(); const [params] = useSearchParams(); const purpose = params.get('purpose') === 'reset-password' ? 'reset-password' : 'verify-email'; const [busy, setBusy] = useState(false); const [formError, setFormError] = useState('');
-  const verify = async (code) => { setBusy(true); setFormError(''); try { const result = await authService.verifyOtp(code, purpose); navigate(purpose === 'reset-password' ? `/reset-password?token=${encodeURIComponent(result.resetToken)}` : '/dashboard'); } catch (error) { setFormError(error.message); } finally { setBusy(false); } };
+  const { verifyOtp } = useAuth();
+  const verify = async (code) => { setBusy(true); setFormError(''); try { const result = await verifyOtp(code, purpose); navigate(purpose === 'reset-password' ? `/reset-password?token=${encodeURIComponent(result.resetToken)}` : '/dashboard'); } catch (error) { setFormError(error.message); } finally { setBusy(false); } };
   const resend = async () => { setBusy(true); try { await authService.resendOtp(purpose); } catch (error) { setFormError(error.message); } finally { setBusy(false); } };
   return (
     <AuthLayout

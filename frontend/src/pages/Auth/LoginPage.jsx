@@ -3,6 +3,7 @@ import LoginForm from "../../components/forms/LoginForm";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import { authService } from "../../services/authService";
 
 /**
  * LoginPage — thin composition layer. All auth logic (API calls, routing,
@@ -41,6 +42,11 @@ export default function LoginPage({
       const destination = location.state?.from || "/dashboard";
       window.setTimeout(() => navigate(destination, { replace: true }), 700);
     } catch (error) {
+      if (error.code === "EMAIL_UNVERIFIED") {
+        authService.setPendingEmail(values.email);
+        navigate("/verify-otp", { replace: true });
+        return;
+      }
       setFormError(error.message || "Unable to sign in. Please try again.");
     } finally {
       setIsSubmitting(false);
