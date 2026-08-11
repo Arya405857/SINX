@@ -119,7 +119,7 @@ export default function RegisterForm({
         label="Full name"
         type="text"
         autoComplete="name"
-        placeholder="Jordan Lee"
+        placeholder="Enter your name"
         required
         disabled={loading}
         value={values.fullName}
